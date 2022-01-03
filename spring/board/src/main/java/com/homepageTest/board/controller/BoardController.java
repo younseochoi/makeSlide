@@ -5,10 +5,7 @@ import com.homepageTest.board.dto.BoardDto;
 import com.homepageTest.board.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +38,7 @@ public class BoardController {
 
     @PostMapping("/post")
     public String write(BoardDto boardDto) {
+        System.out.println(boardDto);
         boardService.savePost(boardDto);
         return "redirect:/";
     }
@@ -61,10 +59,30 @@ public class BoardController {
         return "board/edit";
     }
 
-    @PostMapping("/post/{id}")
+    @PutMapping("/post/edit/{id}")
+    public String update(BoardDto boardDto) {
+        boardService.savePost(boardDto);
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/post/{id}")
     public String delete(@PathVariable("id")Long id){
         boardService.deletePost(id);
         System.out.println("Board Controller :: delete success");
+        return "redirect:/";
+    }
+    //https://caniro.tistory.com/6
+    //https://tyrannocoding.tistory.com/13
+
+    @GetMapping("/test")
+    public String test(){
+        return "board/summernote";
+    }
+
+    @GetMapping("/postT/{id}/category/{categoryId}")
+    public String paramTest(@PathVariable("id")Long id, @PathVariable("categoryId") int categoryId){
+
+        System.out.println("id: "+id+" categoryId: "+categoryId);
         return "redirect:/";
     }
 }
